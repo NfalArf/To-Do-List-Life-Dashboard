@@ -641,3 +641,144 @@ input { font: inherit; }
     .form-row { flex-direction: column; align-items: stretch; }
     .form-row .btn { width: 100%; }
 }
+
+/* ============================================================
+   16. ADVANCED MOBILE VIEW OPTIMIZATION (Fokus Handphone)
+   Mengoptimalkan kenyamanan sentuhan jari dan adaptasi layar sempit
+   ============================================================ */
+
+@media (max-width: 768px) {
+    /* 1. Reset Tata Letak Grid Utama Menjadi Kolom Tunggal */
+    .main-grid {
+        grid-template-columns: 1fr !important; /* Memaksa susunan vertikal ke bawah */
+        padding: var(--space-md);
+        gap: var(--space-md);
+    }
+
+    /* 2. Optimasi Padding Widget agar Ruang Baca Lebih Luas */
+    .widget {
+        padding: var(--space-md) !important; /* Mengurangi padding dalam agar menghemat ruang */
+        border-radius: var(--radius-md); /* Sudut sedikit lebih tegas di layar kecil */
+    }
+
+    /* 3. Menyesuaikan Header Controls & Salam Vertikal */
+    .header-controls {
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .header-greeting {
+        padding: 0 var(--space-md) var(--space-sm);
+    }
+
+    .greeting {
+        font-size: var(--font-size-base); /* Memperkecil teks salam */
+    }
+
+    .clock-time {
+        font-size: 1.75rem; /* Jam digital atas disesuaikan agar tidak terpotong */
+    }
+
+    /* 4. Optimasi Sisi Fokus Timer (Sangat Penting) */
+    .timer-display {
+        font-size: 3.5rem !important; /* Memperkecil ukuran timer dari 5.5rem agar pas di layar HP */
+        padding: var(--space-sm) 0;
+    }
+
+    .timer-controls {
+        flex-direction: row; /* Tetap berbaris samping */
+        width: 100%;
+        justify-content: space-between; /* Menyebar seimbang */
+        gap: var(--space-xs);
+    }
+
+    .timer-controls .btn {
+        flex: 1; /* Membuat tombol Start, Stop, Reset memiliki lebar sama rata */
+        padding: 12px var(--space-xs); /* Mempertebal area tekan sentuhan jari */
+        font-size: var(--font-size-xs);
+    }
+
+    /* 5. Mengubah Struktur Form Menjadi Menumpuk ke Bawah */
+    .form-row {
+        flex-direction: column !important; /* Memaksa tombol turun ke bawah input teks */
+        align-items: stretch !important;
+        gap: var(--space-sm);
+    }
+
+    .form-row .form-input {
+        width: 100% !important; /* Input teks memenuhi lebar layar */
+    }
+
+    .form-row .btn {
+        width: 100% !important; /* Tombol "Add" memenuhi lebar layar di bawah input */
+        padding: 12px var(--space-md); /* Ukuran target sentuh minimal 48px sesuai standar Android/iOS */
+    }
+
+    /* Khusus input durasi timer segaris */
+    .timer-duration {
+        justify-content: center;
+        width: 100%;
+        margin-top: var(--space-md);
+    }
+
+    /* 6. Optimasi Item Tugas (To-Do List) di Handphone */
+    .task-item {
+        padding: var(--space-sm) var(--space-md);
+        min-height: 48px; /* Memastikan tinggi baris nyaman ditekan jari */
+    }
+
+    /* Di handphone, buat tombol aksi edit/hapus selalu muncul (tidak perlu hover kursor) */
+    .task-actions {
+        opacity: 1 !important; 
+        transform: scale(0.95);
+    }
+
+    .task-checkbox {
+        width: 22px; /* Sedikit diperbesar agar mudah dicentang lewat layar sentuh */
+        height: 22px;
+        margin-right: var(--space-xs);
+    }
+
+    /* 7. Optimasi Penampil Tautan Cepat (Quick Links) */
+    .widget--links {
+        padding-left: var(--space-md);
+        padding-right: var(--space-md);
+        margin-bottom: var(--space-md);
+    }
+
+    .links-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Mengubah link menjadi grid 2 kolom rapi di HP */
+        gap: var(--space-sm);
+    }
+
+    .link-btn-wrapper {
+        width: 100%; /* Memenuhi grid */
+        justify-content: space-between;
+    }
+
+    .link-btn {
+        flex: 1;
+        text-align: left;
+        padding: var(--space-sm);
+        font-size: var(--font-size-xs);
+    }
+
+    /* 8. Panel Pengaturan Dialog Modal Fullscreen di HP */
+    .settings-panel {
+        max-width: 100% !important;
+        width: 95vw; /* Mengambil hampir seluruh lebar layar HP */
+        max-height: 90vh;
+        padding: var(--space-lg) var(--space-md);
+    }
+
+    .theme-options {
+        flex-direction: column; /* Pilihan tema menumpuk vertikal */
+        gap: var(--space-sm);
+    }
+
+    .theme-option {
+        width: 100%;
+        justify-content: flex-start;
+        padding: var(--space-sm) var(--space-md);
+    }
+}
