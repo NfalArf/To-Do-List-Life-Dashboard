@@ -1,0 +1,643 @@
+/* style.css — To-Do Life Dashboard
+   Refaktor Premium: Animasi Mikro, Efek Hover Interaktif, dan Shimmer Kontinu
+   Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.7
+*/
+
+/* ============================================================
+   1. CSS CUSTOM PROPERTIES — LIGHT THEME (default)
+   ============================================================ */
+[data-theme="light"] {
+    /* Background & Overlay Tokens */
+    --color-bg-page: #f4f6fa;
+    --color-bg-header: rgba(255, 255, 255, 0.85);
+    --color-bg-widget: #ffffff;
+    --color-bg-overlay: rgba(15, 23, 42, 0.25);
+    --color-bg-panel: #ffffff;
+    --color-bg-input: #f8fafc;
+    --color-bg-btn-primary: #4f6ef7;
+    --color-bg-btn-secondary: #f1f5f9;
+    --color-bg-btn-danger: #fef2f2;
+
+    /* Text & Typography Tokens */
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #475569;
+    --color-text-muted: #94a3b8;
+    --color-text-on-primary: #ffffff;
+    --color-text-link: #4f6ef7;
+    --color-text-danger: #ef4444;
+
+    /* Border Interactive Tokens */
+    --color-border: #e2e8f0;
+    --color-border-focus: #4f6ef7;
+    --color-border-danger: #fca5a5;
+
+    /* Component Accents */
+    --color-accent: #4f6ef7;
+    --color-accent-hover: #3b5bdb;
+    --color-success: #10b981;
+    --color-danger: #ef4444;
+
+    /* Advanced Box Shadows Elevation */
+    --shadow-widget: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-widget-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.07), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+    --shadow-panel: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+    --shadow-btn: 0 2px 4px 0 rgba(79, 110, 247, 0.15);
+    --shadow-btn-hover: 0 6px 16px 0 rgba(79, 110, 247, 0.25);
+
+    --color-timer-display: #0f172a;
+    --color-shimmer: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+}
+
+/* ============================================================
+   2. CSS CUSTOM PROPERTIES — DARK THEME
+   ============================================================ */
+[data-theme="dark"] {
+    /* Background & Overlay Tokens */
+    --color-bg-page: #0b0f17;
+    --color-bg-header: rgba(22, 28, 38, 0.8);
+    --color-bg-widget: #161c26;
+    --color-bg-overlay: rgba(0, 0, 0, 0.65);
+    --color-bg-panel: #1e2533;
+    --color-bg-input: #1e2533;
+    --color-bg-btn-primary: #4f6ef7;
+    --color-bg-btn-secondary: #242c3d;
+    --color-bg-btn-danger: #2c1a1d;
+
+    /* Text & Typography Tokens */
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #94a3b8;
+    --color-text-muted: #64748b;
+    --color-text-on-primary: #ffffff;
+    --color-text-link: #7b93fa;
+    --color-text-danger: #f87171;
+
+    /* Border Interactive Tokens */
+    --color-border: #242c3d;
+    --color-border-focus: #7b93fa;
+    --color-border-danger: #7f1d1d;
+
+    /* Component Accents */
+    --color-accent: #7b93fa;
+    --color-accent-hover: #a5b4fc;
+    --color-success: #34d399;
+    --color-danger: #f87171;
+
+    /* Advanced Box Shadows Elevation */
+    --shadow-widget: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-widget-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.55);
+    --shadow-panel: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    --shadow-btn: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+    --shadow-btn-hover: 0 6px 16px 0 rgba(79, 110, 247, 0.35);
+
+    --color-timer-display: #f8fafc;
+    --color-shimmer: linear-gradient(90deg, #1e2533 25%, #242c3d 50%, #1e2533 75%);
+}
+
+/* ============================================================
+   3. SHARED DESIGN TOKENS (Theme-Independent)
+   ============================================================ */
+:root {
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+    /* Typography Configuration */
+    --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-family-mono: 'JetBrains Mono', monospace;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.5rem;
+    --font-size-timer: 5.5rem; 
+    --font-size-clock: 2.25rem;
+
+    /* Border Radius Configuration */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 18px; 
+    --radius-full: 9999px;
+
+    /* Universal Hardware-Accelerated Transitions Curve */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-theme: 150ms ease;
+
+    --max-content-width: 1100px;
+    --widget-padding: var(--space-lg);
+    --grid-gap: var(--space-lg);
+}
+
+/* ============================================================
+   4. BASE / RESET
+   ============================================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    transition: color var(--transition-theme), background-color var(--transition-theme);
+}
+
+body {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-page);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+ul, ol { list-style: none; }
+button { font: inherit; cursor: pointer; border: none; background: none; }
+input { font: inherit; }
+
+/* ============================================================
+   5. HEADER & TOP CONTROLS
+   ============================================================ */
+.site-header {
+    background-color: var(--color-bg-header);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background-color var(--transition-theme), border-color var(--transition-theme);
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-lg);
+    max-width: var(--max-content-width);
+    margin: 0 auto;
+}
+
+.header-greeting {
+    padding: 0 var(--space-lg) var(--space-md);
+    max-width: var(--max-content-width);
+    margin: 0 auto;
+}
+
+.greeting {
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+.clock-time {
+    font-size: var(--font-size-clock);
+    font-weight: 800;
+    font-family: var(--font-family-mono);
+    color: var(--color-text-primary);
+    letter-spacing: -0.03em;
+    margin: var(--space-xs) 0;
+}
+
+.clock-date {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+/* ============================================================
+   6. MAIN LAYOUT GRID
+   ============================================================ */
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--grid-gap);
+    padding: var(--space-xl) var(--space-lg);
+    max-width: var(--max-content-width);
+    margin: 0 auto;
+}
+
+.widget--links {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+/* ============================================================
+   7. WIDGET / CARD BASE STYLES & INTERACTION
+   ============================================================ */
+.widget {
+    background-color: var(--color-bg-widget);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--widget-padding);
+    box-shadow: var(--shadow-widget);
+    will-change: transform, box-shadow;
+    transition: transform var(--transition-base), box-shadow var(--transition-base), 
+                background-color var(--transition-theme), border-color var(--transition-theme);
+}
+
+/* INTERAKSI 1: Efek Angkat Kartu (Card Floating Elevation) */
+.widget:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-widget-hover);
+}
+
+.widget-title {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* ============================================================
+   8. BUTTONS & HOVER/ACTIVE STATES INTERACTION
+   ============================================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: 10px var(--space-lg);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    line-height: 1.2;
+    user-select: none;
+    will-change: transform, box-shadow;
+    transition: background-color var(--transition-fast), transform var(--transition-fast), 
+                box-shadow var(--transition-fast), color var(--transition-fast);
+}
+
+/* INTERAKSI 2: Efek Tekan Tombol Alami (Push Trigger Feedback) */
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(1px) scale(0.98);
+}
+
+.btn-primary {
+    background-color: var(--color-bg-btn-primary);
+    color: var(--color-text-on-primary);
+    box-shadow: var(--shadow-btn);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: var(--color-accent-hover);
+    box-shadow: var(--shadow-btn-hover);
+}
+
+.btn-secondary {
+    background-color: var(--color-bg-btn-secondary);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background-color: var(--color-border);
+    border-color: var(--color-text-secondary);
+}
+
+.btn-danger {
+    background-color: var(--color-bg-btn-danger);
+    color: var(--color-text-danger);
+    border: 1px solid var(--color-border-danger);
+}
+
+.btn-danger:hover:not(:disabled) {
+    background-color: var(--color-text-danger);
+    color: var(--color-text-on-primary);
+}
+
+/* Icon Buttons (Edit, Close, Delete, Settings) */
+.btn-icon {
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    transition: background-color var(--transition-fast), transform var(--transition-fast), color var(--transition-fast);
+}
+
+/* INTERAKSI 3: Pembesaran Skala Mikro pada Tombol Ikon */
+.btn-icon:hover {
+    background-color: var(--color-bg-btn-secondary);
+    color: var(--color-text-primary);
+    transform: scale(1.1) rotate(4deg); /* Membesar dan miring sedikit agar estetik */
+}
+
+/* ============================================================
+   9. FORM INPUTS & FOCUS ANIMATION RING
+   ============================================================ */
+.form-input {
+    width: 100%;
+    padding: 11px var(--space-md);
+    background-color: var(--color-bg-input);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), 
+                background-color var(--transition-fast);
+}
+
+/* INTERAKSI 4: Efek Pijar Ring Cahaya (Focus Glow Border) */
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-border-focus);
+    background-color: var(--color-bg-widget);
+    box-shadow: 0 0 0 4px rgba(79, 110, 247, 0.18); 
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-sm);
+    align-items: flex-start;
+}
+
+.form-row .form-input { flex: 1; min-width: 0; }
+.form-input--short { width: 76px; text-align: center; flex: none; }
+
+/* ============================================================
+   10. WIDGET: TIMER
+   ============================================================ */
+.widget--timer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.widget--timer .widget-title { width: 100%; }
+
+.timer-display {
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-timer);
+    font-weight: 700;
+    color: var(--color-timer-display);
+    letter-spacing: -0.04em;
+    padding: var(--space-md) 0;
+    line-height: 1;
+    transition: color var(--transition-base);
+}
+
+.timer-controls {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: center;
+    width: 100%;
+    margin-bottom: var(--space-lg);
+}
+
+.timer-duration {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+/* ============================================================
+   11. WIDGET: TO-DO LIST & TASK ITEM HOVER
+   ============================================================ */
+.add-task-form { margin-bottom: var(--space-md); }
+
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: var(--space-md);
+}
+
+.sort-label { font-size: var(--font-size-sm); color: var(--color-text-secondary); font-weight: 600; }
+
+.btn-sort {
+    font-size: var(--font-size-xs);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-input);
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    transition: all var(--transition-fast);
+}
+
+.btn-sort:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-1px);
+}
+
+.btn-sort--active {
+    background-color: var(--color-bg-btn-primary);
+    color: var(--color-text-on-primary);
+    border-color: var(--color-bg-btn-primary);
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background-color: var(--color-bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast),
+                transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+/* INTERAKSI 5: Pergeseran List Horisontal (Slide Translate) saat Hover */
+.task-item:hover {
+    background-color: var(--color-bg-widget);
+    border-color: var(--color-border-focus);
+    transform: translateX(4px); /* Bergeser halus ke kanan memberi petunjuk fokus */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.task-checkbox {
+    width: 19px;
+    height: 19px;
+    cursor: pointer;
+    accent-color: var(--color-accent);
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+}
+
+.task-checkbox:hover {
+    transform: scale(1.15); /* Checkbox sedikit membesar saat didekati */
+}
+
+.task-text { flex: 1; font-size: var(--font-size-sm); word-break: break-word; min-width: 0; }
+
+.task-item.is-completed { opacity: 0.55; }
+.task-item.is-completed .task-text { text-decoration: line-through; color: var(--color-text-muted); }
+
+.task-actions { display: flex; gap: 2px; opacity: 0; transition: opacity var(--transition-fast); }
+.task-item:hover .task-actions { opacity: 1; }
+
+/* ============================================================
+   12. WIDGET: QUICK LINKS & BADGE LAUNCHER
+   ============================================================ */
+.add-link-form { margin-bottom: var(--space-lg); }
+.links-list { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+
+.link-btn-wrapper {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--color-bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: var(--space-xs) var(--space-sm);
+    transition: all var(--transition-fast);
+}
+
+/* INTERAKSI 6: Pembesaran Lencana Tautan Makro (Badge Zoom Effect) */
+.link-btn-wrapper:hover {
+    border-color: var(--color-border-focus);
+    background-color: var(--color-bg-widget);
+    transform: scale(1.05) translateY(-1px);
+    box-shadow: var(--shadow-widget);
+}
+
+.link-btn { padding: var(--space-xs) var(--space-sm); font-size: var(--font-size-sm); font-weight: 600; }
+.link-delete-btn { padding: var(--space-xs); border-radius: var(--radius-full); color: var(--color-text-muted); }
+.link-delete-btn:hover { color: var(--color-text-danger); background-color: var(--color-bg-btn-danger); }
+
+/* ============================================================
+   13. SETTINGS MODAL DIALOG & GLASS BLUR TRANSITION
+   ============================================================ */
+.settings-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: var(--color-bg-overlay);
+    backdrop-filter: blur(0px); 
+    -webkit-backdrop-filter: blur(0px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity var(--transition-base), visibility var(--transition-base), 
+                backdrop-filter var(--transition-base), -webkit-backdrop-filter var(--transition-base);
+}
+
+/* INTERAKSI 7: Pemburaman Latar Belakang Kaca Bertahap (Fade Glass Blur) */
+.settings-overlay.is-open {
+    visibility: visible;
+    opacity: 1;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.settings-overlay[hidden] { display: none !important; }
+
+.settings-panel {
+    background-color: var(--color-bg-panel);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-panel);
+    padding: var(--space-xl);
+    width: 100%;
+    max-width: 450px;
+    transform: scale(0.92) translateY(15px); /* Letak awal mengambang rendah */
+    transition: transform var(--transition-base);
+}
+
+/* Efek Pegas Melenting (Bouncy Spring Transition) saat Modal Muncul */
+.settings-overlay.is-open .settings-panel {
+    transform: scale(1) translateY(0);
+}
+
+.settings-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-xl); }
+.settings-title { font-size: var(--font-size-xl); font-weight: 700; }
+.settings-field { margin-bottom: var(--space-lg); display: flex; flex-direction: column; }
+.settings-actions { display: flex; gap: var(--space-sm); justify-content: flex-end; }
+.theme-options { display: flex; gap: var(--space-md); margin-top: var(--space-xs); }
+
+/* Pilihan Tema Radio Box Wrapper */
+.theme-option {
+    display: flex; align-items: center; gap: var(--space-xs); cursor: pointer;
+    font-size: var(--font-size-sm); background-color: var(--color-bg-input);
+    padding: var(--space-xs) var(--space-md); border: 1px solid var(--color-border);
+    border-radius: var(--radius-md); transition: all var(--transition-fast);
+}
+.theme-option:hover { 
+    border-color: var(--color-border-focus); 
+    transform: translateY(-1px);
+}
+
+/* ============================================================
+   14. ADVANCED KEYFRAMES & UX GRAPHICS
+   ============================================================ */
+
+/* ANIMASI 1: Aliran Kilauan Cahaya Shimmer (Skeleton Flow Effect) */
+@keyframes shimmerEffect {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.task-list-empty, .links-list-empty {
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    padding: var(--space-xl) 0;
+    border-radius: var(--radius-md);
+    background: var(--color-shimmer);
+    background-size: 200% 100%;
+    animation: shimmerEffect 2.5s infinite linear; 
+}
+
+/* ANIMASI 2: Efek Lahir Anggota List Baru (Fade-In Spawn) */
+@keyframes itemSpawn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.task-item, .link-btn-wrapper {
+    animation: itemSpawn 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ANIMASI 3: Detak Jantung Konstan Jam Fokus Sesi (Heartbeat Pulse) */
+@keyframes clockPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); color: var(--color-accent); }
+    100% { transform: scale(1); }
+}
+.timer-running {
+    animation: clockPulse 2s infinite ease-in-out;
+}
+
+/* Sembunyikan ikon tema berlawanan */
+[data-theme="light"] .theme-icon--dark { display: none; }
+[data-theme="dark"] .theme-icon--light { display: none; }
+
+/* Custom Webkit Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background-color: var(--color-border); border-radius: var(--radius-full); }
+
+/* ============================================================
+   15. MOBILE VIEW SINGLE COLUMN OPTIMIZATION
+   ============================================================ */
+@media (max-width: 768px) {
+    .main-grid { grid-template-columns: 1fr; padding: var(--space-md); gap: var(--space-md); }
+    .header-controls { padding: var(--space-sm) var(--space-md); }
+    .header-greeting { padding: 0 var(--space-md) var(--space-sm); }
+    .clock-time { font-size: 1.75rem; }
+    .timer-display { font-size: 3.5rem; }
+    .form-row { flex-direction: column; align-items: stretch; }
+    .form-row .btn { width: 100%; }
+}

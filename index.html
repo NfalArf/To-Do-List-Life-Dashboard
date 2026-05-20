@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do Life Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- ===== HEADER ===== -->
+    <header class="site-header">
+      <div class="header-controls">
+        <!-- Theme toggle -->
+        <button
+          id="theme-toggle"
+          class="btn btn-icon"
+          aria-label="Toggle theme"
+          title="Toggle light / dark theme"
+        >
+          <span class="theme-icon theme-icon--light" aria-hidden="true"
+            >☀️</span
+          >
+          <span class="theme-icon theme-icon--dark" aria-hidden="true">🌙</span>
+        </button>
+
+        <!-- Settings button -->
+        <button
+          id="settings-open-btn"
+          class="btn btn-icon"
+          aria-label="Open settings"
+          aria-controls="settings-panel"
+          aria-expanded="false"
+          title="Settings"
+        >
+          ⚙️
+        </button>
+      </div>
+
+      <!-- Greeting & clock -->
+      <div class="header-greeting">
+        <p id="greeting" class="greeting"></p>
+        <p id="clock-time" class="clock-time"></p>
+        <p id="clock-date" class="clock-date"></p>
+      </div>
+    </header>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-grid">
+      <!-- Focus Timer widget -->
+      <section class="widget widget--timer" aria-labelledby="timer-heading">
+  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    <h2 id="timer-heading" class="widget-title" style="border:none; margin:0; padding:0;">Focus Timer</h2>
+    <span id="pomodoro-streak-count" class="streak-badge">🔥 0 Session Streak</span>
+  </div>
+  <div style="width: 100%; height: 1px; background-color: var(--color-border); margin-bottom: var(--space-md);"></div>
+
+  <div id="timer-display" class="timer-display" aria-live="polite" aria-atomic="true">
+    25:00
+  </div>
+
+  <div class="timer-controls">
+    <button id="timer-start-btn" class="btn btn-primary">Start</button>
+    <button id="timer-stop-btn"  class="btn btn-secondary">Stop</button>
+    <button id="timer-reset-btn" class="btn btn-danger">Reset</button>
+  </div>
+
+  <div class="timer-duration">
+    <label for="timer-duration-input" class="form-label">Duration (min)</label>
+    <input
+      id="timer-duration-input"
+      class="form-input form-input--short"
+      type="number"
+      min="1"
+      max="99"
+      value="25"
+    />
+  </div>
+</section>
+
+      <!-- To-Do List widget -->
+      <section class="widget widget--todo" aria-labelledby="todo-heading">
+        <h2 id="todo-heading" class="widget-title">To-Do List</h2>
+
+        <!-- Add task form -->
+        <form id="add-task-form" class="add-task-form" novalidate>
+          <div class="form-row">
+            <label for="task-input" class="sr-only">New task</label>
+            <input
+              id="task-input"
+              class="form-input"
+              type="text"
+              placeholder="Add a new task…"
+              autocomplete="off"
+              maxlength="200"
+              aria-describedby="task-input-error"
+            />
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+          <p
+            id="task-input-error"
+            class="validation-msg"
+            role="alert"
+            aria-live="polite"
+          ></p>
+        </form>
+
+        <!-- Sort controls -->
+        <div class="sort-controls" role="group" aria-label="Sort tasks">
+          <span class="sort-label">Sort:</span>
+          <button
+            class="btn btn-sort btn-sort--active"
+            data-sort="created"
+            aria-pressed="true"
+          >
+            Created
+          </button>
+          <button class="btn btn-sort" data-sort="alpha" aria-pressed="false">
+            A–Z
+          </button>
+          <button class="btn btn-sort" data-sort="status" aria-pressed="false">
+            Status
+          </button>
+        </div>
+
+        <!-- Task list -->
+        <ul
+          id="task-list"
+          class="task-list"
+          aria-label="Task list"
+          aria-live="polite"
+        >
+          <!-- Tasks are rendered here by Todo.render() -->
+        </ul>
+      </section>
+    </main>
+
+    <!-- Quick Links widget (full-width below the grid) -->
+    <section class="widget widget--links" aria-labelledby="links-heading">
+      <h2 id="links-heading" class="widget-title">Quick Links</h2>
+
+      <!-- Add link form -->
+      <form id="add-link-form" class="add-link-form" novalidate>
+        <div class="form-row">
+          <label for="link-label-input" class="sr-only">Link label</label>
+          <input
+            id="link-label-input"
+            class="form-input"
+            type="text"
+            placeholder="Label"
+            autocomplete="off"
+            maxlength="100"
+          />
+          <label for="link-url-input" class="sr-only">Link URL</label>
+          <input
+            id="link-url-input"
+            class="form-input"
+            type="url"
+            placeholder="URL (e.g. https://example.com)"
+            autocomplete="off"
+            maxlength="2048"
+            aria-describedby="link-input-error"
+          />
+          <button type="submit" class="btn btn-primary">Add Link</button>
+        </div>
+        <p
+          id="link-input-error"
+          class="validation-msg"
+          role="alert"
+          aria-live="polite"
+        ></p>
+      </form>
+
+      <!-- Links list -->
+      <div id="links-list" class="links-list" aria-label="Quick links">
+        <!-- Link buttons are rendered here by Links.render() -->
+      </div>
+    </section>
+
+    <!-- ===== SETTINGS PANEL OVERLAY ===== -->
+    <div
+      id="settings-overlay"
+      class="settings-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="settings-heading"
+      aria-hidden="true"
+      hidden
+    >
+      <div class="settings-panel">
+        <div class="settings-header">
+          <h2 id="settings-heading" class="settings-title">Settings</h2>
+          <button
+            id="settings-close-btn"
+            class="btn btn-icon"
+            aria-label="Close settings"
+          >
+            ✕
+          </button>
+        </div>
+
+        <form id="settings-form" class="settings-form" novalidate>
+          <!-- Display name -->
+          <div class="settings-field">
+            <label for="settings-name-input" class="form-label"
+              >Display name</label
+            >
+            <input
+              id="settings-name-input"
+              class="form-input"
+              type="text"
+              placeholder="Your name"
+              maxlength="50"
+              autocomplete="off"
+            />
+            <p class="field-hint">Shown in the greeting. Max 50 characters.</p>
+          </div>
+
+          <!-- Timer duration -->
+          <div class="settings-field">
+            <label for="settings-timer-input" class="form-label"
+              >Timer duration (min)</label
+            >
+            <input
+              id="settings-timer-input"
+              class="form-input form-input--short"
+              type="number"
+              min="1"
+              max="99"
+              placeholder="25"
+            />
+            <p class="field-hint">
+              Pomodoro session length. Range: 1–99 minutes.
+            </p>
+          </div>
+
+          <!-- Theme -->
+          <div class="settings-field">
+            <span class="form-label">Theme</span>
+            <div
+              class="theme-options"
+              role="radiogroup"
+              aria-label="Choose theme"
+            >
+              <label class="theme-option">
+                <input
+                  type="radio"
+                  name="theme"
+                  id="theme-light"
+                  value="light"
+                  checked
+                />
+                <span>☀️ Light</span>
+              </label>
+              <label class="theme-option">
+                <input type="radio" name="theme" id="theme-dark" value="dark" />
+                <span>🌙 Dark</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-actions">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button
+              type="button"
+              id="settings-cancel-btn"
+              class="btn btn-secondary"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
