@@ -1,18 +1,21 @@
 # To-Do List Life Dashboard
 
-Dashboard manajemen tugas harian yang membantu kamu mengatur kehidupan lebih terorganisir.
+Dashboard produktivitas harian yang membantu kamu mengatur tugas dan fokus kerja.
 
-## 📋 Fitur
-- Tambah, edit, dan hapus tugas
-- Mode Siang dan Malam
-- Set Focus Timer 
-- Session Streak
-- Quick Links
+## ✨ Fitur
+- ✅ Tambah, edit, dan hapus tugas
+- 🔃 Sort tugas berdasarkan Created, A-Z, dan Status
+- 🌙 Mode Siang dan Malam
+- ⏱️ Focus Timer dengan durasi yang bisa dikustomisasi
+- 🔥 Session Streak
+- 🕐 Jam & Tanggal real-time
+- 👋 Greeting otomatis sesuai waktu (Good morning/afternoon/evening)
+- 🔗 Quick Links launcher
 
-## 🛠️ Teknologi yang Digunakan
+## 🛠️ Teknologi
 - HTML
 - CSS
 - JavaScript
 
 ## 👤 Author
-- GitHub: [@NfalArf](https://github.com/NfalArf)
+[@NfalArf](https://github.com/NfalArf)
